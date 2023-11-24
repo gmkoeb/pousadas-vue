@@ -7,8 +7,12 @@
 </head>
 <body>
   <div id="app">
-    <h1>Pousadas Vue</h1>
-
+    <header>
+      <nav>
+        <h1>Pousadas Vue</h1>
+        <input type="text" placeholder="Buscar pousada por nome">
+      </nav>
+    </header>
     <h2>Lista de Pousadas</h2>
     <div>
       <div v-for="inn in innsList">
