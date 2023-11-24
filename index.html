@@ -10,12 +10,13 @@
     <header>
       <nav>
         <h1>Pousadas Vue</h1>
-        <input type="text" placeholder="Buscar pousada por nome">
+        <input v-model="searchText" type="text" placeholder="Buscar pousada por nome">
       </nav>
     </header>
     <h2>Lista de Pousadas</h2>
     <div>
-      <div v-for="inn in innsList">
+      <h2 v-if="listResult.length === 0">Não foi possível encontrar nenhuma pousada ativa.</h2>
+      <div v-for="inn in listResult">
         <h4>{{inn.brand_name}}</h4>
         <address>{{inn.city}}-{{inn.state}}</address>
         <div>

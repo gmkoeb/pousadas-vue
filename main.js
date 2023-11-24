@@ -3,7 +3,21 @@ const app = Vue.createApp({
     return{
       innsList: [],
       innRooms: [],
-      innDetails: {}
+      innDetails: {},
+      searchText: ''
+    }
+  },
+  computed:{
+    listResult(){
+      if(this.searchText){
+        return this.innsList.filter(inn => {
+
+          return inn.brand_name.toLowerCase().includes(this.searchText.toLowerCase())
+
+        })
+      }else{
+        return this.innsList
+      }
     }
   },
   methods: {
