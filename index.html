@@ -83,6 +83,19 @@
                   <p v-if="room.accessible">É acessível para pessoas com deficiência</p>
                   <p v-else>Não é acessível para pessoas com deficiência</p>
                 </div>
+                <form @submit.prevent="submitForm(room.id)" method="post">
+                  <input type="number" name="guests" v-model="guests">
+                  <label for="guests">Número de Hóspedes</label>
+                  <input type="date" name="checkIn" v-model="checkIn">
+                  <label for="checkIn">Data de Entrada</label>
+                  <input type="date" name="checkOut" v-model="checkOut">
+                  <label for="checkOut">Data de Saída</label>
+                  <button type="submit">Checar Disponibilidade</button>
+                </form>
+                <div v-if="checkedRoom === room.id">
+                  <h3 v-if="totalPrice">Preço Total: {{totalPrice}}</h3>
+                  <h3 v-if="errorMessage">{{errorMessage}}</h3>
+                </div>
               </div>
             </div>
           </div>
