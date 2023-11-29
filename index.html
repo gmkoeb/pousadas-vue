@@ -4,115 +4,124 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Pousadas Vue</title>
+  <link rel="stylesheet" href="style.css">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Roboto&display=swap" rel="stylesheet">
 </head>
 <body>
   <div id="app">
     <header>
       <nav>
-        <h1>Pousadas Vue</h1>
+        <h1>Pousadas <strong>Vue</strong></h1>
         <input v-model="searchText" type="text" placeholder="Buscar pousada por nome">
       </nav>
     </header>
-    <div>
-      <h2>Cidades com Pousadas</h2>
-      <button v-on:click="getCityInns(city)" v-for="city in citiesList">{{city}}</button>
+    <main>
+      <section class="cityInns">
+        <h1>Cidades com Pousadas</h2>
+        <div class="citiesList">
+          <button v-on:click="getCityInns(city)" v-for="city in citiesList">{{city}}</button>
+        </div>
+        <div>
+          <h2 v-if="cityInns.length !== 0">Pousadas em: {{cityInns[0].city}}</h2>
+          <div v-for="inn in cityInns">
+            <h4>{{inn.brand_name}}</h4>
+            <address>{{inn.city}}-{{inn.state}}</address>
+          </div>
+        </div>
+      </section>
+      <h1>Lista de Pousadas</h2>
       <div>
-        <h2 v-if="cityInns.length !== 0">Pousadas em: {{cityInns[0].city}}</h2>
-        <div v-for="inn in cityInns">
+        <h2 v-if="listResult.length === 0">Não foi possível encontrar nenhuma pousada ativa.</h2>
+        <div class="innCard" v-for="inn in listResult">
           <h4>{{inn.brand_name}}</h4>
           <address>{{inn.city}}-{{inn.state}}</address>
-        </div>
-      </div>
-    </div>
-    <h2>Lista de Pousadas</h2>
-    <div>
-      <h2 v-if="listResult.length === 0">Não foi possível encontrar nenhuma pousada ativa.</h2>
-      <div v-for="inn in listResult">
-        <h4>{{inn.brand_name}}</h4>
-        <address>{{inn.city}}-{{inn.state}}</address>
-        <div>
-          <button v-if="innDetails.id === inn.id" v-on:click="hideInnDetails">Esconder Detalhes</button>
-          <button v-else v-on:click="getInnDetails(inn.id)">Ver Detalhes</button>
-        </div>
-        <div v-if="innDetails.id === inn.id">
           <div>
-            <h1>{{inn.brand_name}}</h1>
-            <h3>Detalhes da Pousada</h3>
+            <button v-if="innDetails.id === inn.id" v-on:click="hideInnDetails">Esconder Detalhes</button>
+            <button v-else v-on:click="getInnDetails(inn.id)">Ver Detalhes</button>
+          </div>
+          <div class="innDetails" v-if="innDetails.id === inn.id">
             <div>
-              <h4>Informações para Contato</h4>
-              <ul>
-                <li>Telefone para contato: {{innDetails.phone}}</li>
-                <li>E-mail: {{innDetails.email}}</li>
-              </ul>
-              <h4>Localização</h4>
+              <h2>Detalhes da Pousada</h2>
               <div>
-                <address>Endereço Completo: {{innDetails.address}}. {{innDetails.district}}, {{innDetails.city}} - {{innDetails.state}}</address>
-                <address>CEP: {{innDetails.zip_code}}</address>
-              </div>
-              <h4>Formas de Pagamento</h4>
-              <div>
-                <p v-for="paymentMethod in innDetails.payment_methods">
-                  {{paymentMethod}}
-                </p>
-              </div>
-              <h4>Informações Adicionais</h4>
-              <ul>
-                <li v-if="innDetails.accepts_pets">Essa pousada aceita pets! 🐶</li>
-                <li v-else>Essa pousada não aceita pets.</li>
-                <li>Políticas de uso: {{innDetails.terms_of_service}}</li>
-                <li>Horário padrão para check-in e check-out: {{innDetails.formatted_time}}</li>
-              </ul>
-        
-            </div>
-            <h3>Quartos</h3>
-            <div>
-              <h4 v-if="innRooms.length === 0">Não existem quartos disponíveis na pousada.</h4>
-              <div v-for="room in innRooms">
+                <h3>Informações para Contato</h3>
+                <ul>
+                  <li>Telefone para contato: {{innDetails.phone}}</li>
+                  <li>E-mail: {{innDetails.email}}</li>
+                </ul>
+                <h3>Localização</h3>
                 <div>
-                  <h4>{{room.name}}</h4>
-                  <p>Número máximo de hóspedes: {{room.maximum_guests}}</p>
+                  <address>Endereço Completo: {{innDetails.address}}. {{innDetails.district}}, {{innDetails.city}} - {{innDetails.state}}</address>
+                  <address>CEP: {{innDetails.zip_code}}</address>
                 </div>
+                <h4>Formas de Pagamento</h4>
                 <div>
-                  <h4>Especificações</h4>
-                  <p>Descrição: {{room.description}}</p>
-                  <p>Área: {{room.area}} m²</p>
+                  <p v-for="paymentMethod in innDetails.payment_methods">
+                    {{paymentMethod}}
+                  </p>
                 </div>
-                <div>
-                  <h4>Informações Adicionais</h4>
-                  <p v-if="room.has_bathroom">Têm banheiro próprio</p>
-                  <p v-else>Não têm banheiro próprio</p>
-                  <p v-if="room.has_balcony">Têm varanda</p>
-                  <p v-else>Não têm varanda</p>
-                  <p v-if="room.has_air_conditioner">Têm Ar Condicionado</p>
-                  <p v-else>Não têm ar condicionado</p>
-                  <p v-if="room.has_tv">Têm TV</p>
-                  <p v-else>Não têm TV</p>
-                  <p v-if="room.has_wardrobe">Têm armário</p>
-                  <p v-else>Não armário</p>
-                  <p v-if="room.has_coffer">Têm cofre</p>
-                  <p v-else>Não têm cofre</p>
-                  <p v-if="room.accessible">É acessível para pessoas com deficiência</p>
-                  <p v-else>Não é acessível para pessoas com deficiência</p>
-                </div>
-                <form @submit.prevent="submitForm(room.id)" method="post">
-                  <input type="number" name="guests" v-model="guests">
-                  <label for="guests">Número de Hóspedes</label>
-                  <input type="date" name="checkIn" v-model="checkIn">
-                  <label for="checkIn">Data de Entrada</label>
-                  <input type="date" name="checkOut" v-model="checkOut">
-                  <label for="checkOut">Data de Saída</label>
-                  <button type="submit">Checar Disponibilidade</button>
-                </form>
-                <div v-if="checkedRoom === room.id">
-                  <h3 v-if="totalPrice">Preço Total: {{totalPrice}}</h3>
-                  <h3 v-if="errorMessage">{{errorMessage}}</h3>
-                </div>
+                <h3>Informações Adicionais</h3>
+                <ul>
+                  <li v-if="innDetails.accepts_pets">Essa pousada aceita pets! 🐶</li>
+                  <li v-else>Essa pousada não aceita pets.</li>
+                  <li>Políticas de uso: {{innDetails.terms_of_service}}</li>
+                  <li>Horário padrão para check-in e check-out: {{innDetails.formatted_time}}</li>
+                </ul>
+          
               </div>
+              <section>
+                <h2>Quartos</h2>
+                <h4 v-if="innRooms.length === 0">Não existem quartos disponíveis na pousada.</h4>
+                <div v-for="room in innRooms">
+                  <div>
+                    <h4>{{room.name}}</h4>
+                    <p>Número máximo de hóspedes: {{room.maximum_guests}}</p>
+                  </div>
+                  <div>
+                    <h4>Especificações</h4>
+                    <p>Descrição: {{room.description}}</p>
+                    <p>Área: {{room.area}} m²</p>
+                  </div>
+                  <div>
+                    <h4>Informações Adicionais</h4>
+                    <p v-if="room.has_bathroom">Têm banheiro próprio</p>
+                    <p v-else>Não têm banheiro próprio</p>
+                    <p v-if="room.has_balcony">Têm varanda</p>
+                    <p v-else>Não têm varanda</p>
+                    <p v-if="room.has_air_conditioner">Têm Ar Condicionado</p>
+                    <p v-else>Não têm ar condicionado</p>
+                    <p v-if="room.has_tv">Têm TV</p>
+                    <p v-else>Não têm TV</p>
+                    <p v-if="room.has_wardrobe">Têm armário</p>
+                    <p v-else>Não armário</p>
+                    <p v-if="room.has_coffer">Têm cofre</p>
+                    <p v-else>Não têm cofre</p>
+                    <p v-if="room.accessible">É acessível para pessoas com deficiência</p>
+                    <p v-else>Não é acessível para pessoas com deficiência</p>
+                  </div>
+                  <div class="checkForm">
+                    <form @submit.prevent="submitForm(room.id)" method="post">
+                      <label for="guests">Número de Hóspedes</label>
+                      <input type="number" required name="guests" id="guests" v-model="guests">
+                      <label for="checkIn">Data de Entrada</label>
+                      <input type="date" required name="checkIn" id="checkIn" v-model="checkIn">
+                      <label for="checkOut">Data de Saída</label>
+                      <input type="date" required name="checkOut" id="checkOut" v-model="checkOut">
+                      <button type="submit">Checar Disponibilidade</button>
+                    </form>
+                  </div>
+                  <div v-if="checkedRoom == room.id" >
+                    <h3 v-if="totalPrice">Preço Total: {{totalPrice}}</h3>
+                    <h3 class="errors" v-if="errorMessage">{{errorMessage}}</h3>
+                  </div>
+                </div>
+              </section>
             </div>
           </div>
         </div>
       </div>
-    </div>
+    </main>
   </div>
   <script src="https://unpkg.com/vue@3/dist/vue.global.js"></script>
   <script src="main.js"></script>

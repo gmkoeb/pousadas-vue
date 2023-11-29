@@ -1,0 +1,128 @@
+*{
+  margin: 0;
+  padding: 0;
+  justify-content: center;
+  font-family: "Roboto", sans-serif;
+  overflow-x: hidden;
+}
+body{
+  display: flex;
+  flex-direction: column;
+  text-align: center;
+}
+
+#app{
+  margin-top: 6rem;
+}
+
+header{
+  position: absolute;
+  top: 0;
+  background-color: rgb(211, 193, 193);
+  padding: 1rem 0 1rem 0;
+}
+
+nav{
+  width: 100vw;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: space-between;
+}
+
+nav input{
+  width: 25%;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+input[type="text"]{
+  padding: 1rem;
+}
+
+nav h1{
+  font-size: 3rem;
+  padding-left: 2rem;
+}
+nav h1 strong{
+  font-size: 3.5rem;
+  color: #41b883;
+}
+main h1{
+  font-size: 2.5rem;
+}
+
+button{
+  width: fit-content;
+  padding: 0.6rem;
+  background-color: #0d6efd;
+  border: 0.1rem solid;
+  color: white;
+  border-radius: 0.3rem;
+  font-size: 1rem;
+}
+
+button:hover{
+  cursor: pointer;
+  opacity: 90%;
+  transition-duration: 300ms;
+}
+
+.citiesList{
+  display: flex;
+  gap: 0.5rem;
+  justify-content: center;
+  align-items: center;
+  margin-bottom: 1rem;
+}
+
+.cityInns{
+  margin-bottom: 1rem;
+}
+
+.innCard h2{
+  font-size: 2rem;
+  margin-top: 1.5rem;
+}
+
+.innCard h3{
+  font-size: 1.5rem;
+  color: #0d6efd;
+  margin-top: 1rem;
+}
+
+.innCard{
+  border: solid 1px;
+  border-radius: 0.5rem;
+  width: 25vw;
+  margin-left: auto;
+  margin-right: auto;
+  margin-bottom: 1rem;
+  padding: 1rem 0 1rem 0;
+}
+
+form{
+  display: flex;
+  flex-direction: column;
+  margin-top: 1rem;
+  justify-content: center;
+  align-items: center;
+}
+
+form button{
+  width: fit-content;
+  font-size: 1rem;
+  padding: 0.4rem;
+  margin-top: 0.5rem;
+}
+
+form input{
+  width: 65%;
+  padding: 0.4rem;
+}
+
+h3.errors{
+  color: red;
+  margin-bottom: 1rem;
+}
+
