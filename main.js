@@ -3,6 +3,8 @@ const app = Vue.createApp({
     return{
       innsList: [],
       innRooms: [],
+      cityInns: [],
+      citiesList: [],
       innDetails: {},
       searchText: '',
       checkIn: '',
@@ -48,6 +50,16 @@ const app = Vue.createApp({
       let rooms = await response.json()
       return rooms
      },
+     async getCities(){
+      let response = await fetch(`http://localhost:3000/api/v1/inns/cities`)
+      let cities = await response.json()
+      return cities
+     },
+     async getCityInns(city){
+      let response = await fetch(`http://localhost:3000/api/v1/inns/cities?query=${city}`)
+      let cityInns = await response.json()
+      this.cityInns = cityInns
+     },
      async submitForm(roomId){
       this.errorMessage = ''
       const reservationDetails = {
@@ -79,6 +91,7 @@ const app = Vue.createApp({
     },
     async mounted() {
       this.innsList = await this.getInns()
+      this.citiesList = await this.getCities()
     },
 })
 
